@@ -5,7 +5,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { Menu, X, LayoutDashboard, Package, ArrowLeftRight, Search } from "lucide-react";
+import {
+  Menu,
+  X,
+  LayoutDashboard,
+  Package,
+  ArrowLeftRight,
+  Search,
+} from "lucide-react";
 
 const items = [
   { href: "/dashboard", label: "Painel Geral", Icon: LayoutDashboard },
@@ -19,18 +26,21 @@ export default function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <div className="md:hidden sticky top-0 z-40 border-b border-neutral-800 bg-neutral-950/95 backdrop-blur">
-      <div className="h-14 px-4 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="inline-flex items-center gap-2 border border-neutral-800 rounded px-3 py-2 bg-neutral-900"
-        >
-          <Menu className="w-4 h-4" />
-          <span className="text-sm">Menu</span>
-        </button>
+    <>
+      {/* Top bar: agora é opaca (sem transparência) */}
+      <div className="md:hidden sticky top-0 z-40 border-b border-neutral-800 bg-neutral-950">
+        <div className="h-14 px-4 flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="inline-flex items-center gap-2 border border-neutral-800 rounded px-3 py-2 bg-neutral-900"
+          >
+            <Menu className="w-4 h-4" />
+            <span className="text-sm">Menu</span>
+          </button>
 
-        <div className="text-sm text-neutral-300">SETCell</div>
+          <div className="text-sm text-neutral-300">SETCell</div>
+        </div>
       </div>
 
       {open && (
@@ -39,7 +49,7 @@ export default function MobileNav() {
           <button
             type="button"
             aria-label="Close menu"
-            className="absolute inset-0 bg-black/60"
+            className="absolute inset-0 bg-black/70"
             onClick={() => setOpen(false)}
           />
 
@@ -63,7 +73,8 @@ export default function MobileNav() {
 
             <nav className="mt-4 space-y-1">
               {items.map(({ href, label, Icon }) => {
-                const active = pathname === href || pathname.startsWith(href + "/");
+                const active =
+                  pathname === href || pathname.startsWith(href + "/");
                 return (
                   <Link
                     key={href}
@@ -73,10 +84,15 @@ export default function MobileNav() {
                       "flex items-center gap-3 rounded px-3 py-2 text-sm border",
                       active
                         ? "bg-neutral-900 border-neutral-700 text-white"
-                        : "bg-transparent border-transparent text-neutral-300 hover:bg-neutral-900 hover:border-neutral-800 hover:text-white"
+                        : "bg-transparent border-transparent text-neutral-300 hover:bg-neutral-900 hover:border-neutral-800 hover:text-white",
                     )}
                   >
-                    <Icon className={clsx("h-4 w-4", active ? "text-white" : "text-neutral-400")} />
+                    <Icon
+                      className={clsx(
+                        "h-4 w-4",
+                        active ? "text-white" : "text-neutral-400",
+                      )}
+                    />
                     <span className="truncate">{label}</span>
                   </Link>
                 );
@@ -85,6 +101,6 @@ export default function MobileNav() {
           </aside>
         </div>
       )}
-    </div>
+    </>
   );
 }
