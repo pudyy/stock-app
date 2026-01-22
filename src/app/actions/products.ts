@@ -71,6 +71,8 @@ export async function createProduct(formData: FormData) {
   });
 
   revalidatePath("/products");
+  revalidatePath("/dashboard");
+  revalidatePath("/movements");
   redirect(`/products/${product.id}`);
 }
 
@@ -115,6 +117,7 @@ export async function updateProduct(formData: FormData) {
 
   revalidatePath("/products");
   revalidatePath(`/products/${id}`);
+  revalidatePath("/dashboard");
   revalidatePath("/movements");
 }
 
