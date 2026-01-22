@@ -33,7 +33,7 @@ model StockMovement {
 
   // Ajuste conforme sua app (se já tiver enum/tipo, me fala)
   type      String   // ex: "IN" | "OUT"
-  quantity  Int
+  qty  Int
   note      String?
 
   createdAt DateTime @default(now())
