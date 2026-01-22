@@ -126,5 +126,7 @@ export async function deleteProduct(formData: FormData) {
 
   revalidatePath("/products");
   revalidatePath("/movements");
+  revalidatePath("/dashboard");
   redirect("/products");
+
 }
