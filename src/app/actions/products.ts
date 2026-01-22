@@ -1,8 +1,7 @@
 // src/app/actions/products.ts
 "use server";
 
-import fs from "node:fs/promises";
-import path from "node:path";
+import { put } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -11,31 +10,28 @@ function sanitizeFileName(name: string) {
   return name.replaceAll(" ", "_").replaceAll("..", ".");
 }
 
-async function saveImageToPublicUploads(file: File) {
+async function uploadImageToBlob(file: File) {
   if (!file || file.size === 0) return null;
 
   if (!file.type.startsWith("image/")) {
     throw new Error("File must be an image");
   }
 
-  if (file.size > 5 * 1024 * 1024) {
-    throw new Error("Image too large (max 5MB)");
+  // IMPORTANTE: na Vercel Functions tem limite de body ~4.5MB; > isso, use client upload
+  if (file.size > 4.5 * 1024 * 1024) {
+    throw new Error("Image too large for server upload (max ~4.5MB).");
   }
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-
   const safe = sanitizeFileName(file.name);
-  const fileName = `${crypto.randomUUID()}-${safe}`;
-  const relUrl = `/uploads/${fileName}`;
+  const ext = safe.includes(".") ? safe.split(".").pop() : "jpg";
+  const pathname = `products/${crypto.randomUUID()}.${ext ?? "jpg"}`;
 
-  const uploadsDir = path.join(process.cwd(), "public", "uploads");
-  await fs.mkdir(uploadsDir, { recursive: true }); // <- garante pasta
+  const blob = await put(pathname, file, {
+    access: "public",
+    contentType: file.type || "image/jpeg",
+  });
 
-  const absPath = path.join(uploadsDir, fileName);
-  await fs.writeFile(absPath, buffer);
-
-  return relUrl;
+  return blob.url;
 }
 
 export async function createProduct(formData: FormData) {
@@ -48,8 +44,11 @@ export async function createProduct(formData: FormData) {
   const salePrice = Number(formData.get("salePrice") ?? 0);
   const stock = Number(formData.get("stock") ?? 0);
 
-  const image = formData.get("image") as unknown as File | null;
-  const imageUrl = image ? await saveImageToPublicUploads(image) : null;
+  const image = formData.get("image");
+  const imageUrl =
+    image instanceof File && image.size > 0
+      ? await uploadImageToBlob(image)
+      : null;
 
   if (!name) throw new Error("Name is required");
   if (!Number.isFinite(costPrice) || costPrice < 0)
@@ -71,8 +70,8 @@ export async function createProduct(formData: FormData) {
     },
   });
 
-  revalidatePath("/products"); // revalida cache da rota [web:132]
-  redirect(`/products/${product.id}`); // redirect em Server Action [web:219]
+  revalidatePath("/products");
+  redirect(`/products/${product.id}`);
 }
 
 export async function updateProduct(formData: FormData) {
@@ -86,9 +85,11 @@ export async function updateProduct(formData: FormData) {
   const salePrice = Number(formData.get("salePrice") ?? 0);
   const stock = Number(formData.get("stock") ?? 0);
 
-  const image = formData.get("image") as unknown as File | null;
+  const image = formData.get("image");
   const newImageUrl =
-    image && image.size > 0 ? await saveImageToPublicUploads(image) : undefined;
+    image instanceof File && image.size > 0
+      ? await uploadImageToBlob(image)
+      : undefined;
 
   if (!id) throw new Error("Missing id");
   if (!name) throw new Error("Name is required");
@@ -112,9 +113,9 @@ export async function updateProduct(formData: FormData) {
     },
   });
 
-  revalidatePath("/products"); // [web:132]
-  revalidatePath(`/products/${id}`); // [web:132]
-  revalidatePath("/movements"); // [web:132]
+  revalidatePath("/products");
+  revalidatePath(`/products/${id}`);
+  revalidatePath("/movements");
 }
 
 export async function deleteProduct(formData: FormData) {
@@ -123,7 +124,7 @@ export async function deleteProduct(formData: FormData) {
 
   await prisma.product.delete({ where: { id } });
 
-  revalidatePath("/products"); // [web:132]
-  revalidatePath("/movements"); // [web:132]
-  redirect("/products"); // [web:219]
+  revalidatePath("/products");
+  revalidatePath("/movements");
+  redirect("/products");
 }
