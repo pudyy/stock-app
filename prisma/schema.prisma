@@ -5,7 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model Product {
@@ -25,4 +24,17 @@ model Product {
 
   movements   StockMovement[]
 }
- 
+
+model StockMovement {
+  id        String   @id @default(cuid())
+
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  // Ajuste conforme sua app (se já tiver enum/tipo, me fala)
+  type      String   // ex: "IN" | "OUT"
+  quantity  Int
+  note      String?
+
+  createdAt DateTime @default(now())
+}
