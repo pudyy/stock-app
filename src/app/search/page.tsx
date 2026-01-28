@@ -86,7 +86,7 @@ export default async function SearchPage({
                 <div className="flex items-center gap-2 text-xs text-neutral-500">
                   <Tag className="w-3.5 h-3.5" />
                   <span className="truncate">
-                    {p.category ?? "No category"}
+                    {p.category ?? "Sem categoria"}
                   </span>
                 </div>
 

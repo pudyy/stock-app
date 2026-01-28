@@ -53,7 +53,7 @@ export default function SearchBar() {
         onClick={() => submit(value)}
         className="bg-white text-black rounded px-4 py-2 hover:opacity-90 disabled:opacity-60"
       >
-        {isPending ? "..." : "Search"}
+        {isPending ? "..." : "Procurar"}
       </button>
     </div>
   );
