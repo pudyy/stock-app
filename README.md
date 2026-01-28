@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Stock-app
 
-## Getting Started
+Stock-app is a web app for inventory control made for a mobile phone repair shop where I work.  
+It helps you register products, manage stock quantities, and track stock movements (IN/OUT).
 
-First, run the development server:
+## Features
+- Dashboard with quick info (total products, total stock, recent movements)
+- Products CRUD (create, edit, delete)
+- Stock movements:
+  - IN (stock entry)
+  - OUT (stock exit)
+- Product photo upload (Vercel Blob) and image URL saved in the database
+- Search page to find products faster
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
+- Next.js (App Router) + TypeScript
+- Prisma ORM
+- PostgreSQL (Neon)
+- Vercel (Deployment)
+- Vercel Blob (Image upload)
+- Tailwind CSS
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Pages
+- `/dashboard` — overview and quick actions
+- `/products` — create and manage products
+- `/products/[id]` — edit product and change photo
+- `/movements` — register stock entries/exits
+- `/search` — search products
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy
+This project is designed to be deployed on Vercel.  
+Database is hosted on Neon, and images are stored using Vercel Blob.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Screenshots
+<img width="960" height="497" alt="{D3DB6EEF-C362-4632-B652-3DEE295BB78F}" src="https://github.com/user-attachments/assets/bbc0ce2f-e3b8-4955-b86b-6fe2c92ff431" />
+<img width="960" height="496" alt="{63C0F4A7-3A7E-46E3-820D-964953DFF896}" src="https://github.com/user-attachments/assets/f75dfa8c-f413-4f00-b16e-1954f5c10aff" />
+<img width="960" height="500" alt="{D80B517A-0E75-405A-B53A-9B7F5E0F857D}" src="https://github.com/user-attachments/assets/55e2990f-fdce-4ada-90a6-2db713a11b52" />
+<img width="960" height="501" alt="{8778C505-6861-4B04-8390-9453F055EF05}" src="https://github.com/user-attachments/assets/eb943bde-c646-473e-853e-ba6bf36968cb" />
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## About
+I built this project to help my daily work in a phone repair shop, to keep stock organized and avoid mistakes.
