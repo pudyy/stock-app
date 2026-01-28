@@ -59,7 +59,7 @@ export async function createProduct(formData: FormData) {
 
   const product = await prisma.product.create({
     data: {
-      name,
+      name: name.trim(),
       sku: skuRaw ? skuRaw : null,
       category: category ? category : null,
       description: description ? description : null,

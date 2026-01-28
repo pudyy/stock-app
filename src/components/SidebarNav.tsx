@@ -10,7 +10,7 @@ const items = [
   { href: "/dashboard", label: "Painel geral", Icon: LayoutDashboard },
   { href: "/products", label: "Produtos", Icon: Package },
   { href: "/movements", label: "Movimentações", Icon: ArrowLeftRight },
-  { href: "/search", label: "Pesquisa", Icon: Search },
+  { href: "/search", label: "Pesquisar produtos", Icon: Search },
 ];
 
 export default function SidebarNav() {
