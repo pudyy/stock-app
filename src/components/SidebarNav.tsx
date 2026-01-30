@@ -4,12 +4,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { LayoutDashboard, Package, ArrowLeftRight, Search } from "lucide-react";
+import { LayoutDashboard, Package, ArrowLeftRight, History, Search } from "lucide-react";
 
 const items = [
   { href: "/dashboard", label: "Painel geral", Icon: LayoutDashboard },
   { href: "/products", label: "Produtos", Icon: Package },
-  { href: "/movements", label: "Movimentações", Icon: ArrowLeftRight },
+  { href: "/movements", label: "Registrar movimentações", Icon: ArrowLeftRight, exactMatch: true },
+  { href: "/movements/history", label: "Histórico de movimentações", Icon: History },
   { href: "/search", label: "Pesquisar produtos", Icon: Search },
 ];
 
@@ -24,8 +25,8 @@ export default function SidebarNav() {
       </div>
 
       <nav className="space-y-1">
-        {items.map(({ href, label, Icon }) => {
-          const active = pathname === href || pathname.startsWith(href + "/");
+        {items.map(({ href, label, Icon, exactMatch }) => {
+          const active = exactMatch ? pathname === href : pathname === href || pathname.startsWith(href + "/");
 
           return (
             <Link

@@ -11,13 +11,15 @@ import {
   LayoutDashboard,
   Package,
   ArrowLeftRight,
+  History,
   Search,
 } from "lucide-react";
 
 const items = [
   { href: "/dashboard", label: "Painel Geral", Icon: LayoutDashboard },
   { href: "/products", label: "Produtos", Icon: Package },
-  { href: "/movements", label: "Movimentações", Icon: ArrowLeftRight },
+  { href: "/movements", label: "Registrar movimentações", Icon: ArrowLeftRight, exactMatch: true },
+  { href: "/movements/history", label: "Histórico de movimentações", Icon: History },
   { href: "/search", label: "Pesquisar produtos", Icon: Search },
 ];
 
@@ -72,9 +74,8 @@ export default function MobileNav() {
             </div>
 
             <nav className="mt-4 space-y-1">
-              {items.map(({ href, label, Icon }) => {
-                const active =
-                  pathname === href || pathname.startsWith(href + "/");
+              {items.map(({ href, label, Icon, exactMatch }) => {
+                const active = exactMatch ? pathname === href : pathname === href || pathname.startsWith(href + "/");
                 return (
                   <Link
                     key={href}
