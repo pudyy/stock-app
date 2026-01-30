@@ -3,6 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ArrowDownToLine, ArrowUpFromLine, History } from "lucide-react";
 import { MovementFilterTabs } from "./MovementFilterTabs";
+import DeleteMovementButton from "./DeleteMovementButton";
 
 type FilterType = "ALL" | "IN" | "OUT";
 
@@ -52,38 +53,47 @@ export default async function MovementsHistoryPage({
 
         <div className="divide-y divide-neutral-900">
           {movements.map((m) => (
-            <div key={m.id} className="p-4 hover:bg-neutral-900/40">
-              <div className="flex items-center justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2 truncate text-neutral-200">
-                    <span
-                      className={
-                        m.type === "IN" ? "text-green-300" : "text-red-300"
-                      }
-                    >
-                      {m.type === "IN" ? (
-                        <ArrowDownToLine className="inline w-4 h-4 mr-1 align-middle" />
-                      ) : (
-                        <ArrowUpFromLine className="inline w-4 h-4 mr-1 align-middle" />
-                      )}
-                      {m.type === "IN" ? "Entrada" : "Saída"}
-                    </span>
-                    <span className="text-neutral-500">•</span>
-                    <span className="text-neutral-300 font-medium">{m.qty}</span>
-                    <span className="text-neutral-500">un.</span>
-                    <span className="text-neutral-500">•</span>
-                    <span className="font-medium">{m.product.name}</span>
+            <div
+              key={m.id}
+              className="p-4 hover:bg-neutral-900/40 flex items-center justify-between gap-4"
+            >
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 truncate text-neutral-200">
+                  <span
+                    className={
+                      m.type === "IN" ? "text-green-300" : "text-red-300"
+                    }
+                  >
+                    {m.type === "IN" ? (
+                      <ArrowDownToLine className="inline w-4 h-4 mr-1 align-middle" />
+                    ) : (
+                      <ArrowUpFromLine className="inline w-4 h-4 mr-1 align-middle" />
+                    )}
+                    {m.type === "IN" ? "Entrada" : "Saída"}
+                  </span>
+                  <span className="text-neutral-500">•</span>
+                  <span className="text-neutral-300 font-medium">{m.qty}</span>
+                  <span className="text-neutral-500">un.</span>
+                  <span className="text-neutral-500">•</span>
+                  <span className="font-medium">{m.product.name}</span>
+                </div>
+                {m.reason && (
+                  <div className="text-sm text-neutral-500 truncate mt-0.5">
+                    {m.reason}
                   </div>
-                  {m.reason && (
-                    <div className="text-sm text-neutral-500 truncate mt-0.5">
-                      {m.reason}
-                    </div>
-                  )}
-                </div>
+                )}
+              </div>
 
-                <div className="text-sm text-neutral-500 whitespace-nowrap">
+              <div className="flex items-center gap-3 shrink-0">
+                <span className="text-sm text-neutral-500 whitespace-nowrap">
                   {new Date(m.createdAt).toLocaleString("pt-BR")}
-                </div>
+                </span>
+                <DeleteMovementButton
+                  movementId={m.id}
+                  productName={m.product.name}
+                  type={m.type}
+                  qty={m.qty}
+                />
               </div>
             </div>
           ))}

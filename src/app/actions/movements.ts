@@ -41,6 +41,43 @@ export async function createMovement(formData: FormData) {
 
   revalidatePath("/dashboard");
   revalidatePath("/movements");
+  revalidatePath("/movements/history");
+  revalidatePath("/products");
+  revalidatePath("/search");
+}
+
+export async function deleteMovement(formData: FormData) {
+  const movementId = String(formData.get("id") ?? "");
+  if (!movementId) throw new Error("Missing movement id");
+
+  await prisma.$transaction(async (tx) => {
+    const movement = await tx.stockMovement.findUnique({
+      where: { id: movementId },
+      include: { product: true },
+    });
+    if (!movement) throw new Error("Movimentação não encontrada");
+
+    // Reverte o estoque: IN tinha somado, então subtrai; OUT tinha subtraído, então soma
+    const delta = movement.type === "IN" ? -movement.qty : movement.qty;
+    const nextStock = movement.product.stock + delta;
+    if (nextStock < 0)
+      throw new Error(
+        "Não é possível remover esta movimentação: o estoque atual do produto não permite reverter a entrada.",
+      );
+
+    await tx.product.update({
+      where: { id: movement.productId },
+      data: { stock: nextStock },
+    });
+
+    await tx.stockMovement.delete({
+      where: { id: movementId },
+    });
+  });
+
+  revalidatePath("/dashboard");
+  revalidatePath("/movements");
+  revalidatePath("/movements/history");
   revalidatePath("/products");
   revalidatePath("/search");
 }
