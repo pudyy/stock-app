@@ -91,7 +91,7 @@ export default async function MovementsHistoryPage({
                 <DeleteMovementButton
                   movementId={m.id}
                   productName={m.product.name}
-                  type={m.type}
+                  type={m.type as "IN" | "OUT"}
                   qty={m.qty}
                 />
               </div>
