@@ -22,24 +22,24 @@ export default async function RegisterMovementPage({
   });
 
   return (
-    <main className="p-6 space-y-6">
-      <header className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold">Registrar novas movimentações</h1>
-          <p className="text-sm text-neutral-400">
+    <main className="p-4 md:p-6 space-y-4 md:space-y-6">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="min-w-0">
+          <h1 className="text-xl md:text-2xl font-semibold">Registrar novas movimentações</h1>
+          <p className="text-sm text-neutral-400 mt-0.5">
             Registre a entrada (IN) ou saída (OUT) de produtos no estoque.
           </p>
         </div>
 
         <Link
           href="/movements/history"
-          className="text-sm text-neutral-300 hover:text-white border border-neutral-800 rounded px-3 py-2 bg-neutral-900 hover:border-neutral-600"
+          className="w-full sm:w-auto text-sm text-center text-neutral-300 hover:text-white border border-neutral-800 rounded-lg px-4 py-3 sm:py-2 bg-neutral-900 hover:border-neutral-600 shrink-0"
         >
           Ver histórico →
         </Link>
       </header>
 
-      <section className="rounded border border-neutral-800 bg-neutral-950">
+      <section className="rounded-lg border border-neutral-800 bg-neutral-950">
         <div className="p-4 border-b border-neutral-800 flex items-center gap-2">
           {preset === "IN" ? (
             <ArrowDownToLine className="w-4 h-4 text-green-300" />
@@ -56,7 +56,7 @@ export default async function RegisterMovementPage({
               name="productId"
               required
               defaultValue=""
-              className="bg-neutral-900 border border-neutral-800 rounded px-3 py-2 w-full focus:outline-none focus:border-neutral-600"
+              className="bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-3 md:py-2 w-full focus:outline-none focus:border-neutral-600 text-base"
             >
               <option value="" disabled>
                 Selecione um produto...
@@ -75,7 +75,7 @@ export default async function RegisterMovementPage({
             <select
               name="type"
               defaultValue={preset}
-              className="bg-neutral-900 border border-neutral-800 rounded px-3 py-2 w-full focus:outline-none focus:border-neutral-600"
+              className="bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-3 md:py-2 w-full focus:outline-none focus:border-neutral-600 text-base"
             >
               <option value="IN">Entrada (IN)</option>
               <option value="OUT">Saída (OUT)</option>
@@ -90,7 +90,7 @@ export default async function RegisterMovementPage({
               min={1}
               step={1}
               defaultValue={1}
-              className="bg-neutral-900 border border-neutral-800 rounded px-3 py-2 w-full focus:outline-none focus:border-neutral-600"
+              className="bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-3 md:py-2 w-full focus:outline-none focus:border-neutral-600 text-base"
             />
           </div>
 
@@ -98,15 +98,15 @@ export default async function RegisterMovementPage({
             <Label>Razão (opcional)</Label>
             <input
               name="reason"
-              className="bg-neutral-900 border border-neutral-800 rounded px-3 py-2 w-full focus:outline-none focus:border-neutral-600"
-              placeholder="Ex: Venda, Uso interno, etc... (Informar nome para melhor organização)"
+              className="bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-3 md:py-2 w-full focus:outline-none focus:border-neutral-600 text-base"
+              placeholder="Ex: Venda, Uso interno, etc..."
             />
           </div>
 
           <div className="md:col-span-2 flex items-center justify-end pt-2">
             <button
               type="submit"
-              className="bg-white text-black rounded px-4 py-2 hover:opacity-90"
+              className="bg-white text-black rounded-lg px-5 py-3 min-h-[48px] hover:opacity-90 touch-manipulation w-full sm:w-auto"
             >
               Salvar movimentação
             </button>

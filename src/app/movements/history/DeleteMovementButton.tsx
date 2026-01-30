@@ -36,11 +36,11 @@ export default function DeleteMovementButton({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 border border-neutral-700 rounded px-2 py-1.5 text-neutral-400 hover:text-red-300 hover:border-red-900/60 hover:bg-red-950/30 transition-colors"
+        className="inline-flex items-center justify-center gap-1.5 border border-neutral-700 rounded-lg px-3 py-2.5 min-h-[44px] text-neutral-400 hover:text-red-300 hover:border-red-900/60 hover:bg-red-950/30 transition-colors touch-manipulation"
         title="Remover movimentação"
       >
-        <Trash2 className="w-3.5 h-3.5" />
-        <span className="text-xs">Remover</span>
+        <Trash2 className="w-4 h-4 shrink-0" />
+        <span className="text-sm">Remover</span>
       </button>
 
       <form ref={formRef} action={deleteMovement}>

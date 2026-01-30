@@ -13,7 +13,7 @@ const filters: { value: FilterType; label: string }[] = [
 
 export function MovementFilterTabs({ currentFilter }: { currentFilter: FilterType }) {
   return (
-    <div className="flex items-center gap-1 rounded-lg border border-neutral-800 bg-neutral-900/50 p-1">
+    <div className="flex items-center gap-1 rounded-lg border border-neutral-800 bg-neutral-900/50 p-1 w-full sm:w-auto">
       {filters.map(({ value, label }) => {
         const href = value === "ALL" ? "/movements/history" : `/movements/history?filter=${value}`;
         const isActive = currentFilter === value;
@@ -23,7 +23,7 @@ export function MovementFilterTabs({ currentFilter }: { currentFilter: FilterTyp
             key={value}
             href={href}
             className={clsx(
-              "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+              "flex-1 sm:flex-initial text-center rounded-md px-3 py-2.5 sm:py-1.5 text-sm font-medium transition-colors min-h-[44px] sm:min-h-0 flex items-center justify-center",
               isActive
                 ? "bg-neutral-700 text-white"
                 : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800",

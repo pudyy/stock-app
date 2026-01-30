@@ -25,13 +25,13 @@ export default async function DashboardPage() {
   const totalStock = stockSummary._sum.stock ?? 0;
 
   return (
-    <main className="p-6 space-y-6">
-      <h1 className="text-2xl font-semibold">Painel Geral</h1>
+    <main className="p-4 md:p-6 space-y-4 md:space-y-6">
+      <h1 className="text-xl md:text-2xl font-semibold">Painel Geral</h1>
 
-      <section className="rounded border border-neutral-800 p-4 space-y-3">
+      <section className="rounded-lg border border-neutral-800 p-4 space-y-3">
         <h2 className="text-lg font-medium">Ações rápidas</h2>
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           <Link
             href="/products"
             className="rounded border border-neutral-800 bg-neutral-900 hover:border-neutral-600 px-4 py-3 flex items-start gap-3"
@@ -82,26 +82,26 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-3">
-        <div className="rounded border border-neutral-800 p-4">
+      <section className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3">
+        <div className="rounded-lg border border-neutral-800 p-4">
           <div className="text-sm text-neutral-400">Total de produtos</div>
-          <div className="text-3xl font-semibold mt-1">{totalProducts}</div>
+          <div className="text-2xl sm:text-3xl font-semibold mt-1">{totalProducts}</div>
         </div>
 
-        <div className="rounded border border-neutral-800 p-4">
+        <div className="rounded-lg border border-neutral-800 p-4">
           <div className="text-sm text-neutral-400">Itens no estoque</div>
-          <div className="text-3xl font-semibold mt-1">{totalStock}</div>
+          <div className="text-2xl sm:text-3xl font-semibold mt-1">{totalStock}</div>
         </div>
 
-        <div className="rounded border border-neutral-800 p-4">
+        <div className="rounded-lg border border-neutral-800 p-4">
           <div className="text-sm text-neutral-400">Movimentações recentes</div>
-          <div className="text-3xl font-semibold mt-1">
+          <div className="text-2xl sm:text-3xl font-semibold mt-1">
             {recentMovements.length}
           </div>
         </div>
       </section>
 
-      <section className="rounded border border-neutral-800 p-4 space-y-3">
+      <section className="rounded-lg border border-neutral-800 p-4 space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-medium">Últimas 10 movimentações</h2>
           <Link
@@ -116,28 +116,32 @@ export default async function DashboardPage() {
           {recentMovements.map((m) => (
             <div
               key={m.id}
-              className="border border-neutral-800 rounded px-3 py-2"
+              className="border border-neutral-800 rounded-lg px-4 py-3"
             >
-              <div className="flex items-center justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="truncate">
+              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between md:gap-4">
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                     <span
                       className={
                         m.type === "IN" ? "text-green-300" : "text-red-300"
                       }
                     >
                       {m.type}
-                    </span>{" "}
-                    • {m.qty} • {m.product.name}
+                    </span>
+                    <span className="text-neutral-500">•</span>
+                    <span className="font-medium">{m.qty}</span>
+                    <span className="text-neutral-500">un.</span>
+                    <span className="text-neutral-500">•</span>
+                    <span className="break-words">{m.product.name}</span>
                   </div>
                   {m.reason && (
-                    <div className="text-sm text-neutral-400 truncate">
+                    <div className="text-sm text-neutral-400 mt-0.5 break-words line-clamp-2 md:truncate">
                       {m.reason}
                     </div>
                   )}
                 </div>
 
-                <div className="text-sm text-neutral-400 whitespace-nowrap">
+                <div className="text-sm text-neutral-400 shrink-0">
                   {formatDateTimeBR(m.createdAt)}
                 </div>
               </div>
