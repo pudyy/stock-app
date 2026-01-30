@@ -1,6 +1,7 @@
 // src/app/dashboard/page.tsx
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { formatDateTimeBR } from "@/lib/utils";
 import {
   PackagePlus,
   Search,
@@ -137,7 +138,7 @@ export default async function DashboardPage() {
                 </div>
 
                 <div className="text-sm text-neutral-400 whitespace-nowrap">
-                  {new Date(m.createdAt).toLocaleString()}
+                  {formatDateTimeBR(m.createdAt)}
                 </div>
               </div>
             </div>

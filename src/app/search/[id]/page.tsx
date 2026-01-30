@@ -1,6 +1,7 @@
 // src/app/search/[id]/page.tsx
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { formatDateTimeBR } from "@/lib/utils";
 import { ArrowLeft, Pencil, Image as ImageIcon, Tag } from "lucide-react";
 
 function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
@@ -111,9 +112,9 @@ export default async function SearchProductDetailPage({
           <section className="rounded border border-neutral-800 bg-neutral-950 p-4 space-y-2">
             <h2 className="text-lg font-medium">Metadata</h2>
             <div className="text-sm text-neutral-400">
-              Criado em: {new Date(product.createdAt).toLocaleString()}
+              Criado em: {formatDateTimeBR(product.createdAt)}
               <br />
-              Atualizado em: {new Date(product.updatedAt).toLocaleString()}
+              Atualizado em: {formatDateTimeBR(product.updatedAt)}
             </div>
           </section>
         </div>

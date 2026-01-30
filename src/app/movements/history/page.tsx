@@ -1,6 +1,7 @@
 // src/app/movements/history/page.tsx
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { formatDateTimeBR } from "@/lib/utils";
 import { ArrowDownToLine, ArrowUpFromLine, History } from "lucide-react";
 import { MovementFilterTabs } from "./MovementFilterTabs";
 import DeleteMovementButton from "./DeleteMovementButton";
@@ -86,7 +87,7 @@ export default async function MovementsHistoryPage({
 
               <div className="flex items-center gap-3 shrink-0">
                 <span className="text-sm text-neutral-500 whitespace-nowrap">
-                  {new Date(m.createdAt).toLocaleString("pt-BR")}
+                  {formatDateTimeBR(m.createdAt)}
                 </span>
                 <DeleteMovementButton
                   movementId={m.id}
